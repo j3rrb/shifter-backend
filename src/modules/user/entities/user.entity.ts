@@ -6,6 +6,8 @@ import {
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -63,4 +65,8 @@ export default class UserEntity {
   @ManyToOne(() => AuthEntity)
   @JoinColumn({ name: 'auth_id' })
   auth: AuthEntity;
+
+  @ManyToMany(() => LogEntity, (log) => log.user, { cascade: true })
+  @JoinTable({ name: 'user_log' })
+  logs: LogEntity[];
 }
