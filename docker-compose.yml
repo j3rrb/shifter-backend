@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    container_name: 'postgres'
+    container_name: postgres
     image: postgres
     volumes:
       - /var/lib/postgresql/data/pgdata
@@ -14,12 +14,29 @@ services:
       - POSTGRES_DB=${POSTGRES_DATABASE}
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
-      - "5432:5432"
-    expose:
-      - "5432:5432"
-  
+      - '5432:5432'
+    networks:
+      - default
+
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    networks:
+      - default
+    command: redis-server --save 20 1 --loglevel warning --requirepass $REDIS_PASSWORD
+
   server:
     container_name: server
     build: .
     depends_on:
       - postgres
+      - redis
+    ports:
+      - '3000:3000'
+    networks:
+      - default
+
+networks:
+  default:

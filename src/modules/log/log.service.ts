@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import LogEntity from './entities/log.entity';
 import { DataSource } from 'typeorm';
 import UserService from '@modules/user/user.service';
-import CreateUserLogDTO from './dtos/create.dto';
 
 @Injectable()
 export default class LogService {
@@ -13,14 +12,14 @@ export default class LogService {
 
   logger = new Logger(LogService.name);
 
-  async create(data: CreateUserLogDTO) {
+  async create(userId: number) {
     const queryRunner = await this.datasource.createQueryRunner();
 
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
-      const user = await this.userService.getById(data.userId);
+      const user = await this.userService.getById(userId);
 
       if (!user) {
         throw new HttpException(

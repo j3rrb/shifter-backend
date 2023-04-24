@@ -66,7 +66,7 @@ export default class UserEntity {
   @JoinColumn({ name: 'auth_id' })
   auth: AuthEntity;
 
-  @ManyToMany(() => LogEntity, (log) => log.user, { cascade: true })
+  @ManyToMany(() => LogEntity, (log) => log.id, { cascade: true })
   @JoinTable({ name: 'user_log' })
   logs: LogEntity[];
 }

@@ -1,10 +1,7 @@
-import UserEntity from '@modules/user/entities/user.entity';
 import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -22,8 +19,4 @@ export default class LogEntity {
     name: 'time',
   })
   time: string;
-
-  @ManyToOne(() => UserEntity)
-  @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
 }
