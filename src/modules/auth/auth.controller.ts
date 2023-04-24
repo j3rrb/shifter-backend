@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { IsPublic } from 'src/decorators/public.decorator';
 import AuthService from './auth.service';
 import LoginDTO from './dtos/login.dto';
@@ -9,6 +9,7 @@ export default class AuthController {
 
   @IsPublic()
   @Post()
+  @HttpCode(202)
   async login(@Body() data: LoginDTO) {
     const token = await this.authService.validateCredentials(data);
 
